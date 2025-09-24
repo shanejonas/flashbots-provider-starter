@@ -1,7 +1,7 @@
 import * as ethers from "ethers";
 import { FlashbotsBundleProvider, RelayResponseError, FlashbotsBundleResolution } from "@flashbots/ethers-provider-bundle";
 
-const NUM_BLOCKS_TO_WAIT = 1;
+const NUM_BLOCKS_TO_WAIT = 25;
 
 const network = ethers.Network.from({
   name: "mainnet",
