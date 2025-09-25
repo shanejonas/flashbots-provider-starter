@@ -5,15 +5,22 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "build": "tsc"
+    "generate-tx": "tsx src/generate-transactions.ts",
+    "send-bundle": "tsx src/send-transactions.ts",
+    "full-flow": "tsx src/generate-transactions.ts && tsx src/send-transactions.ts"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "tsx": "^4.20.5",
     "typescript": "^5.9.2"
   },
   "dependencies": {
-    "ethers": "6.7.1",
-    "@flashbots/ethers-provider-bundle": "1.0.0"
+    "@flashbots/ethers-provider-bundle": "1.0.0",
+    "express": "^5.1.0",
+    "cors": "^2.8.5",
+    "ethers": "6.7.1"
   }
 }
