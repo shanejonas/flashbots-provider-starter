@@ -28,10 +28,7 @@ export const send = async () => {
     authSigner as any, // TODO: fix types
     process.env.RELAY_URL || "https://relay.flashbots.net"
   );
-  console.log("Flashbots provider created");
 
-  // get updated just incase we want to edit the file and run send
-  const txes: TxInfo[] = fs.readFileSync('transactions.json', 'utf8') ? JSON.parse(fs.readFileSync('transactions.json', 'utf8')) : transactions;
   const signedBundle = await flashbotsProvider.signBundle(transactions.map((tx) => ({
     signedTransaction: tx.signedTransaction
   })));
