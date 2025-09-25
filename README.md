@@ -18,10 +18,5 @@ npm run generate-tx
 
 3. Send the bundle to the Flashbots relay
 ```bash
-FUNDING_PRIVATE_KEY=0x<privkey> \
-NFT_PRIVATE_KEY=0x<privkey>
-TARGET_ADDRESS=0x<targetaddress> \
-NFT_CONTRACT_ADDRESS=0x<contractaddress> \
-NFT_TOKEN_ID=1 \
 npm run send-bundle
 ```
