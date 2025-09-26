@@ -2,7 +2,7 @@
 
 import * as ethers from "ethers";
 import fs from "fs";
-import { UPSTREAM_RPC_URL } from "./constants.js";
+import { UPSTREAM_RPC_URL, MAX_FEE_PER_GAS, MAX_PRIORITY_FEE_PER_GAS } from "./constants.js";
 
 const network = ethers.Network.from({
   name: "mainnet",
@@ -56,14 +56,17 @@ export const generateTransactions = async (): Promise<TxInfo[]> => {
   console.log("Funding wallet address:", fundingWallet.address);
   console.log("NFT wallet address:", nftWallet.address);
 
+  const gasPrice = (await provider.getFeeData()).gasPrice || MAX_FEE_PER_GAS;
+  const fundingAmount = ethers.parseUnits("121000", "wei") * gasPrice * BigInt(12) / BigInt(10); // buffer 20%
+
   // 1. Generate funding transaction
   console.log("Creating funding transaction...");
   const fundingTx = {
     to: TARGET_ADDRESS!,
-    value: ethers.parseEther("0.1"), // 0.1 ETH
+    value: fundingAmount,
     gasLimit: 21000,
-    gasPrice: (await provider.getFeeData()).gasPrice || ethers.parseUnits("20", "gwei"),
-    nonce: await provider.getTransactionCount(fundingWallet.address, "latest"),
+    maxPriorityFeePerGas: MAX_PRIORITY_FEE_PER_GAS, // first tx should have a higher tip
+    maxFeePerGas: MAX_FEE_PER_GAS,
     chainId: 1
   };
 
@@ -95,8 +98,8 @@ export const generateTransactions = async (): Promise<TxInfo[]> => {
     to: NFT_CONTRACT_ADDRESS!,
     data: transferData,
     gasLimit: 100000,
-    gasPrice: (await provider.getFeeData()).gasPrice || ethers.parseUnits("20", "gwei"),
-    nonce: await provider.getTransactionCount(nftWallet.address, "latest"),
+    maxPriorityFeePerGas: ethers.parseUnits("1", "gwei"),
+    maxFeePerGas: MAX_FEE_PER_GAS,
     chainId: 1
   };
 
