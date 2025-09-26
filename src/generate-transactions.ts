@@ -89,8 +89,8 @@ export const generateTransactions = async (): Promise<TxInfo[]> => {
   ]);
 
   const transferData = transferInterface.encodeFunctionData("transferFrom", [
-    TARGET_ADDRESS,
     nftWallet.address,
+    TARGET_ADDRESS,
     NFT_TOKEN_ID
   ]);
 
